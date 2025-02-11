@@ -40,11 +40,16 @@ const ListTextToPhpArray = () => {
     // Error on formatting
     const isParsable = Object.entries(result).length;
     if (!!isParsable) {
+      // Converting as associative array
       const phpLikeFormat = Object.entries(result)
         .map(([key, values]) => `"${key}" => [${values.map((v) => `"${v}"`).join(", ")}]`)
         .join(",\n");
 
       setFormatResult(phpLikeFormat);
+    } else if (!!lines.length) {
+      // Converting as normal array
+      const arr_convert = `[${lines.map((entry) => `"${entry}"`).join(",\n")}]`;
+      setFormatResult(arr_convert);
     } else {
       setFormatResult("The result cannot be converted");
     }
@@ -52,7 +57,7 @@ const ListTextToPhpArray = () => {
 
   const handleConvert = () => {
     parseText(inputText);
-    handleCopy();
+    // handleCopy();
   };
 
   return (
