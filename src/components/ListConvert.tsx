@@ -57,15 +57,14 @@ const ListTextToPhpArray = () => {
 
   const handleConvert = () => {
     parseText(inputText);
-    // handleCopy();
   };
 
   return (
     <div className={styles.container}>
       <textarea
         className={styles.textarea}
-        // rows={10}
-        cols={400}
+        rows={10}
+        cols={40}
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
         onKeyDown={(e) => {

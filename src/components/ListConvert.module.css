@@ -1,23 +1,27 @@
 .container {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     gap: 10px;
-    align-content: center;
+    /* align-content: center; */
     flex-wrap: wrap;
-    max-width: 600px;
+    max-width: 1028px;
+    margin: auto;
 }
 
 .textarea {
-    max-width: 1028px;
+    width: 100%;
+    /* max-width: 1028px; */
     min-height: 150px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     /* font-size: 14px; */
     font-family: monospace;
+    resize: vertical;
 }
 
 .snippetContainer {
+    width: 100%;
     background: #1e1e1e;
     border-radius: 8px;
     overflow: hidden;
@@ -44,6 +48,7 @@
 }
 
 .copyButton {
+    width: auto;
     background: transparent;
     border: none;
     color: white;
