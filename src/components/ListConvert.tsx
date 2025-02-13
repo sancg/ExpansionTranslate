@@ -48,7 +48,7 @@ const ListTextToPhpArray = () => {
       setFormatResult(phpLikeFormat);
     } else if (!!lines.length) {
       // Converting as normal array
-      const arr_convert = `[${lines.map((entry) => `"${entry}"`).join(",\n")}]`;
+      const arr_convert = `[${lines.map((entry) => `"${entry}"`).join(", ")}]`;
       setFormatResult(arr_convert);
     } else {
       setFormatResult("The result cannot be converted");
