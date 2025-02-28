@@ -1,6 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./ListConvert.module.css";
 import { MdCopyAll } from "react-icons/md";
+import {
+  associativeArrayPhp,
+  keyValuePhp,
+  List,
+  parseText,
+  textToArray,
+} from "../helpers/analyzeFormat";
+
+enum ParseResultType {
+  KeyValuePhp,
+  List,
+  String,
+  Unknown,
+}
+
+const getParseResultType = (result: any): ParseResultType => {
+  if (typeof result === "object" && !Array.isArray(result)) {
+    return ParseResultType.KeyValuePhp;
+  } else if (Array.isArray(result)) {
+    return ParseResultType.List;
+  } else if (typeof result === "string") {
+    return ParseResultType.String;
+  } else {
+    return ParseResultType.Unknown;
+  }
+};
 
 const ListTextToPhpArray = () => {
   const [inputText, setInputText] = useState<string>("");
@@ -13,50 +39,34 @@ const ListTextToPhpArray = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const parseText = (text: string) => {
-    const result: Record<string, string[]> = {};
-
-    const lines = text
-      .split("\n")
-      .map((line) => line.trim())
-      .filter((line) => line);
-
-    let currentParent: string | null = null;
-
-    // Building the array association
-    lines.forEach((line) => {
-      const parentMatch = line.match(/^\d+\.\s*(.+)/);
-
-      if (parentMatch) {
-        currentParent = parentMatch[1].trim();
-        result[currentParent] = [];
-      } else if (currentParent) {
-        result[currentParent].push(line);
-      }
-    });
-
-    console.log({ lines, result });
-
-    // Error on formatting
-    const isParsable = Object.entries(result).length;
-    if (!!isParsable) {
-      // Converting as associative array
-      const phpLikeFormat = Object.entries(result)
-        .map(([key, values]) => `"${key}" => [${values.map((v) => `"${v}"`).join(", ")}]`)
-        .join(",\n");
-
-      setFormatResult(phpLikeFormat);
-    } else if (!!lines.length) {
-      // Converting as normal array
-      const arr_convert = `[${lines.map((entry) => `"${entry}"`).join(", ")}]`;
-      setFormatResult(arr_convert);
-    } else {
-      setFormatResult("The result cannot be converted");
+  useEffect(() => {
+    if (formatResult) {
+      handleCopy();
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
-  };
+
+    return () => {};
+  }, [formatResult]);
 
   const handleConvert = () => {
-    parseText(inputText);
+    const usableText = parseText(inputText);
+    const resultType = getParseResultType(usableText);
+
+    console.log({ usableText, resultType });
+    let newFormatResult = "";
+    switch (resultType) {
+      case ParseResultType.KeyValuePhp:
+        newFormatResult = associativeArrayPhp(usableText as keyValuePhp);
+        break;
+      case ParseResultType.List:
+        newFormatResult = textToArray(usableText as List);
+        break;
+      default:
+        newFormatResult = "Unknown format";
+    }
+
+    setFormatResult(newFormatResult);
   };
 
   return (
