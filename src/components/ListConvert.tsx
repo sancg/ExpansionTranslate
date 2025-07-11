@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './ListConvert.module.css';
-import { MdCopyAll } from 'react-icons/md';
 import {
   associativeArrayPhp,
   keyValuePhp,
@@ -8,6 +7,7 @@ import {
   parseText,
   textToArray,
 } from '../helpers/analyzeFormat';
+import { ResultBox } from './ResultBox';
 
 enum ParseResultType {
   KeyValuePhp,
@@ -31,25 +31,6 @@ const getParseResultType = (result: any): ParseResultType => {
 const ListTextToPhpArray = () => {
   const [inputText, setInputText] = useState<string>('');
   const [formatResult, setFormatResult] = useState<string>('');
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    if (!!formatResult) {
-      navigator.clipboard.writeText(formatResult);
-    }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  useEffect(() => {
-    if (formatResult) {
-      handleCopy();
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-
-    return () => {};
-  }, [formatResult]);
 
   const handleConvert = () => {
     const usableText = parseText(inputText);
@@ -106,18 +87,7 @@ const ListTextToPhpArray = () => {
       >
         Convert
       </button>
-
-      <div className={styles.snippetContainer + ' rounded-xl'}>
-        <div className='flex justify-between h-13 items-center bg-[#2f2f2f] text-white px-4 py-2 rounded-t-xl'>
-          <span className={styles.language}>PHP</span>
-          <button className={styles.copyButton} onClick={handleCopy}>
-            <MdCopyAll size={16} /> {copied ? 'Copied!' : 'Copy'}
-          </button>
-        </div>
-        <pre className={styles.result}>
-          <code className='font-mono text-sm text-gray-400'>{formatResult}</code>
-        </pre>
-      </div>
+      <ResultBox formatResult={formatResult} />
     </div>
   );
 };
