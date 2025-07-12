@@ -1,25 +1,11 @@
-export type keyValuePhp = Record<string, string[]>;
-export type List = string[];
-
-const associativeArrayPhp = (convertedText: keyValuePhp) => {
-  const fixedText = Object.entries(convertedText)
-    .map(([key, values]) => `"${key}" => [${values.map((v) => `"${v}"`).join(", ")}]`)
-    .join(",\n");
-
-  return fixedText;
-};
-
-const textToArray = (convertedText: List) => {
-  const list = `[${convertedText.map((entry) => `"${entry}"`).join(", ")}]`;
-  return list;
-};
+import { KeyArrayValue, StringList } from '../types/types';
 
 const parseText = (text: string) => {
-  let result: keyValuePhp | List | string | null = {};
+  let result: KeyArrayValue | StringList | string | null = {};
   let currentParent: string | null = null;
 
   const lines = text
-    .split("\n")
+    .split('\n')
     .map((line) => line.trim())
     .filter(Boolean);
 
@@ -41,4 +27,4 @@ const parseText = (text: string) => {
   return result;
 };
 
-export { associativeArrayPhp, textToArray, parseText };
+export { parseText };
