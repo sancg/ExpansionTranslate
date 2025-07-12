@@ -78,11 +78,7 @@ const ListTextToPhpArray = () => {
       <button
         className={styles.button}
         onClick={() => {
-          if (inputText !== '') {
-            handleConvert();
-          } else {
-            alert('Nothing to convert');
-          }
+          !inputText ? alert('Nothing to convert') : handleConvert();
         }}
       >
         Convert

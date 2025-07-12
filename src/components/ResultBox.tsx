@@ -4,8 +4,10 @@ import { MdCopyAll } from 'react-icons/md';
 
 type Props = {
   formatResult: string;
+  lang?: string;
 };
-export const ResultBox = ({ formatResult }: Props) => {
+
+export default function ResultBox({ formatResult, lang = 'PHP' }: Props) {
   const [isCopy, setIsCopy] = useState(false);
 
   const handleCopy = () => {
@@ -25,9 +27,9 @@ export const ResultBox = ({ formatResult }: Props) => {
   }, [formatResult]);
 
   return (
-    <div className={styles.snippetContainer + ' rounded-xl'}>
-      <div className='flex justify-between h-13 items-center bg-[#2f2f2f] text-white px-4 py-2 rounded-t-xl'>
-        <span className={styles.language}>PHP</span>
+    <div className={styles.snippetContainer + ' rounded-xl border-[#333]'}>
+      <div className='flex justify-between h-13 items-center bg-[#2f2f2f] text-white px-4 py-2 rounded-t-l'>
+        <span className={styles.language}>{lang}</span>
         <button className={styles.copyButton} onClick={handleCopy}>
           <MdCopyAll size={16} /> {isCopy ? 'Copied!' : 'Copy'}
         </button>
@@ -37,4 +39,4 @@ export const ResultBox = ({ formatResult }: Props) => {
       </pre>
     </div>
   );
-};
+}
