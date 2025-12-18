@@ -6,7 +6,7 @@ const linkedArray: Parser = {
   canHandle: (input) => typeof input === 'object' && !Array.isArray(input),
   parse: (convertedText: KeyArrayValue) => {
     const fixedText = Object.entries(convertedText)
-      .map(([key, values]) => `"${key}" => [${values.map((v) => `"${v}"`).join(', ')}]`)
+      .map(([key, values]) => `'${key}' => [${values.map((v) => `'${v}'`).join(', ')}]`)
       .join(',\n');
 
     return fixedText;
@@ -18,7 +18,7 @@ const arrayAsString: Parser = {
   enabled: true,
   canHandle: (input) => Array.isArray(input),
   parse: (convertedText: StringList) => {
-    return `[${convertedText.map((entry) => `"${entry}"`).join(', ')}]`;
+    return `[${convertedText.map((entry) => `'${entry}'`).join(', ')}]`;
   },
 };
 
