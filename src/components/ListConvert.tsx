@@ -22,7 +22,7 @@ const ListTextToPhpArray = () => {
         name='rawText'
         className={
           styles.textarea +
-          ' w-full h-32 p-2 border-1 border-[#333] rounded-xl max-h-48 shadow-2xs resize-y dark:bg-[#303030] '
+          ' w-full h-32 p-2 border border-[#333] rounded-xl max-h-48 shadow-2xs resize-y dark:bg-[#303030] '
         }
         rows={10}
         cols={40}
