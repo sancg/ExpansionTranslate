@@ -6,7 +6,7 @@ const parseText = (text: string) => {
 
   const lines = text
     .split('\n')
-    .map((line) => line.trim())
+    .map((line) => formatLineText(line))
     .filter(Boolean);
 
   // Building the array association
@@ -25,6 +25,10 @@ const parseText = (text: string) => {
     return lines;
   }
   return result;
+};
+
+const formatLineText = (line: string): string => {
+  return line.replace(/\t/g, ', ').trim();
 };
 
 export { parseText };
